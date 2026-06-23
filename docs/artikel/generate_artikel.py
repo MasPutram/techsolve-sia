@@ -134,6 +134,37 @@ def add_image_placeholder(doc, caption):
     add_caption(doc, caption)
 
 
+def add_image_grid(doc, captions):
+    """Susun placeholder gambar dalam grid 2 kolom agar compact.
+    captions: list caption; tiap sel berisi kotak placeholder + caption."""
+    n = len(captions)
+    rows = (n + 1) // 2
+    table = doc.add_table(rows=rows, cols=2)
+    table.style = "Table Grid"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for idx, cap in enumerate(captions):
+        cell = table.rows[idx // 2].cells[idx % 2]
+        # paragraf placeholder
+        p0 = cell.paragraphs[0]
+        p0.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        set_single_spacing(p0, space_after=1)
+        r0 = p0.add_run("[ TEMPATKAN GAMBAR ]")
+        r0.font.name = FONT_BODY
+        r0.font.size = Pt(8)
+        r0.font.color.rgb = RGBColor(0x88, 0x88, 0x88)
+        # paragraf caption
+        pc = cell.add_paragraph()
+        pc.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        set_single_spacing(pc, space_after=1)
+        rc = pc.add_run(cap)
+        rc.italic = True
+        rc.font.name = FONT_BODY
+        rc.font.size = Pt(8.5)
+    # jika jumlah ganjil, kosongkan sel terakhir
+    sp = doc.add_paragraph()
+    set_single_spacing(sp, space_after=2)
+
+
 def add_code_block(doc, code):
     """Blok kode monospace kecil dengan spasi rapat."""
     for line in code.strip("\n").split("\n"):
@@ -272,23 +303,15 @@ def build():
     )
     add_body(
         doc,
-        "Untuk mengatasi permasalahan tersebut, penelitian ini membangun sebuah "
-        "SIA berbasis web yang mengotomatiskan proses penjurnalan pada level "
-        "basis data menggunakan mekanisme database trigger. Dengan pendekatan "
-        "ini, setiap transaksi yang dimasukkan akan secara otomatis membentuk "
-        "entri pada buku jurnal tanpa intervensi manual, sehingga konsistensi "
-        "data terjaga. Studi kasus yang digunakan adalah TechSolve Consulting, "
-        "sebuah UMKM fiktif yang bergerak di bidang jasa konsultan teknologi "
-        "informasi.",
-    )
-    add_body(
-        doc,
-        "Tujuan penelitian ini adalah merancang dan mengimplementasikan SIA "
-        "berbasis web dengan otomatisasi penjurnalan berbasis trigger, serta "
-        "menguji keandalannya dalam menjaga prinsip double-entry dan menghasilkan "
-        "laporan keuangan yang seimbang. Manfaatnya adalah menyediakan rujukan "
-        "praktis penerapan trigger basis data untuk menjamin integritas data "
-        "akuntansi pada aplikasi UMKM.",
+        "Untuk mengatasi permasalahan tersebut, penelitian ini membangun SIA "
+        "berbasis web yang mengotomatiskan penjurnalan pada level basis data "
+        "menggunakan mekanisme database trigger, dengan studi kasus TechSolve "
+        "Consulting (UMKM fiktif jasa konsultan teknologi informasi). Setiap "
+        "transaksi yang dimasukkan otomatis membentuk entri buku jurnal tanpa "
+        "intervensi manual. Tujuan penelitian adalah merancang dan menguji "
+        "sistem tersebut dalam menjaga prinsip double-entry serta menghasilkan "
+        "laporan keuangan yang seimbang, sekaligus menyediakan rujukan praktis "
+        "penerapan trigger untuk menjamin integritas data akuntansi pada UMKM.",
     )
 
     # ---------- 2. TINJAUAN PUSTAKA ----------
@@ -322,20 +345,14 @@ def build():
     add_body(
         doc,
         "Next.js merupakan kerangka kerja berbasis React yang mendukung "
-        "perenderan di sisi server (server-side rendering) serta penyediaan "
-        "antarmuka pemrograman aplikasi (API) dalam satu basis kode [SITASI-6]. "
-        "Kombinasi Next.js dan MySQL memungkinkan pembangunan aplikasi web yang "
-        "ringkas namun tetap memisahkan lapisan antarmuka, logika bisnis, dan "
-        "penyimpanan data.",
-    )
-    add_body(
-        doc,
-        "Beberapa penelitian terdahulu telah membahas pengembangan aplikasi "
-        "akuntansi dan sistem informasi sejenis untuk UMKM [SITASI-7], penerapan "
-        "otomatisasi pada pengolahan data transaksi [SITASI-8], serta pemanfaatan "
-        "trigger basis data untuk menjaga konsistensi data [SITASI-9]. Penelitian "
-        "ini melengkapi kajian tersebut dengan menekankan otomatisasi penjurnalan "
-        "double-entry sepenuhnya pada level trigger MySQL.",
+        "perenderan sisi server dan penyediaan API dalam satu basis kode "
+        "[SITASI-6], sehingga memisahkan lapisan antarmuka, logika bisnis, dan "
+        "penyimpanan data secara ringkas. Penelitian terdahulu telah membahas "
+        "pengembangan aplikasi akuntansi untuk UMKM [SITASI-7], otomatisasi "
+        "pengolahan data transaksi [SITASI-8], serta pemanfaatan trigger untuk "
+        "menjaga konsistensi data [SITASI-9]. Penelitian ini melengkapi kajian "
+        "tersebut dengan menekankan otomatisasi penjurnalan double-entry "
+        "sepenuhnya pada level trigger MySQL.",
     )
 
     # ---------- 3. METODE ----------
@@ -374,16 +391,13 @@ def build():
     )
     add_body(
         doc,
-        "Basis data dirancang dengan empat tabel utama. Tabel chart_of_accounts "
-        "menyimpan daftar akun beserta kategori dan saldo normalnya. Tabel "
-        "transactions menyimpan kepala (header) transaksi, sedangkan "
-        "transaction_details menyimpan baris debit dan kredit. Tabel "
-        "journal_entries menampung buku jurnal yang seluruhnya diisi otomatis "
-        "oleh trigger. Sebuah kolom penghubung ref_detail_id ditambahkan pada "
-        "tabel jurnal untuk menautkan setiap baris detail dengan tepat satu entri "
-        "jurnal (relasi satu-ke-satu) sehingga operasi pembaruan dan penghapusan "
-        "menjadi presisi. Struktur akun dan relasi tabel disajikan pada Tabel 2 "
-        "dan Gambar 1.",
+        "Basis data dirancang dengan empat tabel utama (Tabel 2 dan Gambar 1): "
+        "chart_of_accounts (master akun), transactions (header transaksi), "
+        "transaction_details (baris debit/kredit), dan journal_entries (buku "
+        "jurnal yang diisi otomatis oleh trigger). Kolom penghubung ref_detail_id "
+        "ditambahkan pada tabel jurnal untuk menautkan setiap baris detail dengan "
+        "tepat satu entri jurnal (relasi satu-ke-satu), sehingga operasi "
+        "pembaruan dan penghapusan menjadi presisi.",
     )
     add_caption(doc, "Tabel 2. Struktur Tabel Basis Data")
     add_table(
@@ -459,19 +473,16 @@ END;
         "Sistem berhasil diimplementasikan dengan lima fitur utama, yaitu "
         "pengelolaan daftar akun (CRUD Chart of Accounts), input transaksi dengan "
         "validasi double-entry, jurnal umum, buku besar dengan saldo berjalan, "
-        "serta tiga laporan keuangan otomatis. Tampilan tiap fitur ditunjukkan "
-        "pada Gambar 2 hingga Gambar 8.",
+        "serta tiga laporan keuangan otomatis. Cuplikan antarmuka fitur utama "
+        "ditunjukkan pada Gambar 2 dan Gambar 3.",
     )
-    for cap in [
-        "Gambar 2. Halaman Dashboard",
-        "Gambar 3. Form Input Transaksi dengan Validasi Double-Entry",
-        "Gambar 4. Jurnal Umum",
-        "Gambar 5. Buku Besar dengan Saldo Berjalan",
-        "Gambar 6. Laporan Laba Rugi",
-        "Gambar 7. Laporan Perubahan Modal",
-        "Gambar 8. Neraca",
-    ]:
-        add_image_placeholder(doc, cap)
+    add_image_grid(
+        doc,
+        [
+            "Gambar 2. Form Input Transaksi (Validasi Double-Entry)",
+            "Gambar 3. Laporan Neraca (Seimbang)",
+        ],
+    )
 
     add_body(
         doc,
@@ -495,13 +506,11 @@ END;
     )
     add_body(
         doc,
-        "Pengujian keandalan trigger dilakukan terhadap tiga operasi data dan "
-        "hasilnya dirangkum pada Tabel 4. Penambahan satu transaksi seimbang "
-        "menambah dua entri jurnal (14 menjadi 16); pengubahan nominal transaksi "
-        "memperbarui nilai pada entri jurnal terkait; dan penghapusan transaksi "
-        "mengembalikan jumlah entri jurnal ke kondisi semula (16 menjadi 14). "
-        "Transaksi dengan total debit dan kredit tidak seimbang berhasil ditolak "
-        "oleh sistem.",
+        "Pengujian keandalan trigger terhadap tiga operasi data dirangkum pada "
+        "Tabel 4. Penambahan transaksi seimbang menambah dua entri jurnal "
+        "(14→16), pengubahan nominal memperbarui entri jurnal terkait, dan "
+        "penghapusan mengembalikan jumlah entri ke kondisi semula (16→14). "
+        "Transaksi dengan debit dan kredit tidak seimbang berhasil ditolak.",
     )
     add_caption(doc, "Tabel 4. Hasil Pengujian Trigger dan Validasi")
     add_table(
@@ -516,14 +525,13 @@ END;
     )
     add_body(
         doc,
-        "Laporan keuangan yang dihasilkan dari data jurnal menunjukkan hasil yang "
-        "konsisten dan seimbang, sebagaimana dirangkum pada Tabel 5. Total "
-        "pendapatan sebesar Rp8.000.000 dikurangi total beban Rp4.500.000 "
-        "menghasilkan laba bersih Rp3.500.000. Modal akhir sebesar Rp52.500.000 "
-        "diperoleh dari modal awal Rp50.000.000 ditambah laba bersih dan dikurangi "
-        "prive Rp1.000.000. Neraca menunjukkan total aset sama dengan total "
-        "kewajiban dan ekuitas sebesar Rp52.500.000, sehingga persamaan akuntansi "
-        "terpenuhi.",
+        "Laporan keuangan yang dihasilkan dari data jurnal konsisten dan seimbang "
+        "(Tabel 5). Total pendapatan Rp8.000.000 dikurangi total beban "
+        "Rp4.500.000 menghasilkan laba bersih Rp3.500.000. Modal akhir "
+        "Rp52.500.000 berasal dari modal awal Rp50.000.000 ditambah laba bersih "
+        "dikurangi prive Rp1.000.000. Neraca menunjukkan total aset sama dengan "
+        "kewajiban ditambah ekuitas sebesar Rp52.500.000, sehingga persamaan "
+        "akuntansi terpenuhi.",
     )
     add_caption(doc, "Tabel 5. Ringkasan Hasil Laporan Keuangan")
     add_table(
@@ -538,7 +546,7 @@ END;
         ],
     )
     add_image_placeholder(
-        doc, "Gambar 9. Output SHOW TRIGGERS pada MySQL Workbench (Bukti Trigger)"
+        doc, "Gambar 4. Output SHOW TRIGGERS pada MySQL Workbench (Bukti Trigger)"
     )
 
     # ---------- 5. PENUTUP ----------
