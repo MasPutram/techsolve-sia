@@ -573,27 +573,62 @@ END;
 
     # ---------- DAFTAR PUSTAKA ----------
     add_heading(doc, "DAFTAR PUSTAKA")
-    add_plain(
-        doc,
-        "Catatan: penanda [SITASI-1] s.d. [SITASI-9] pada naskah perlu diganti "
-        "dengan sitasi sebenarnya melalui Mendeley. Daftar di bawah adalah peta "
-        "topik tiap penanda; isi referensi final akan menyusul setelah verifikasi "
-        "sumber yang sahih.",
+
+    # Pemetaan penanda [SITASI-N] -> referensi (untuk diisi via Mendeley)
+    pmap = doc.add_paragraph()
+    set_single_spacing(pmap, space_after=4)
+    pm = pmap.add_run(
+        "Pemetaan penanda sitasi (isi sitasi dalam teks via Mendeley sesuai peta "
+        "ini): [SITASI-1] dan [SITASI-7] -> Firdaus & Widyasastrena (2017); "
+        "[SITASI-2] -> Nugraha dkk. (2023); [SITASI-3] dan [SITASI-8] -> "
+        "Ramadani dkk. (2025); [SITASI-4] -> Anggraeni & Priatna (2019); "
+        "[SITASI-5] -> Dedianto (2013); [SITASI-6] -> Maharani (2025) dan "
+        "Naresvari & Susetyo (2025); [SITASI-9] -> Arief (2010)."
     )
-    for marker, topik in [
-        ("SITASI-1", "Definisi/konsep Sistem Informasi Akuntansi"),
-        ("SITASI-2", "Peran SIA bagi UMKM / kebutuhan informasi keuangan"),
-        ("SITASI-3", "Kelemahan pencatatan manual / human error"),
-        ("SITASI-4", "Prinsip double-entry bookkeeping"),
-        ("SITASI-5", "Database trigger (definisi & jenis pada MySQL)"),
-        ("SITASI-6", "Next.js / React untuk aplikasi web"),
-        ("SITASI-7", "Studi terkait: aplikasi akuntansi/SIA untuk UMKM"),
-        ("SITASI-8", "Studi terkait: otomatisasi pengolahan data transaksi"),
-        ("SITASI-9", "Studi terkait: pemanfaatan trigger untuk integritas data"),
-    ]:
+    pm.italic = True
+    pm.font.name = FONT_BODY
+    pm.font.size = Pt(9)
+
+    # Daftar referensi (terverifikasi; urut alfabetis)
+    referensi = [
+        "Anggraeni, I., & Priatna, H. (2019). Pentingnya double entry system "
+        "dalam akuntansi perusahaan. AKURAT: Jurnal Ilmiah Akuntansi FE UNIBBA, "
+        "10(1), 90-98.",
+        "Arief, M. R. (2010). Implementasi constraint untuk menjamin konsistensi "
+        "dan integritas data dalam database. Jurnal DASI, 11(2). STMIK AMIKOM "
+        "Yogyakarta.",
+        "Dedianto. (2013). Sistem trigger database pada SIAKAD Informatika. "
+        "JUSTIN (Jurnal Sistem dan Teknologi Informasi), 1(1). Universitas "
+        "Tanjungpura.",
+        "Firdaus, D. W., & Widyasastrena, D. (2017). Perancangan sistem "
+        "informasi akuntansi koperasi dan UMKM berbasis technopreneur. Jurnal "
+        "Riset Akuntansi dan Keuangan, 5(2), 1423-1440. "
+        "https://doi.org/10.17509/jrak.v5i2.8124",
+        "Maharani, P. (2025). Pengembangan website PT. Rantangin Digital "
+        "Indonesia menggunakan framework Next.js dan Tailwind CSS. Repeater: "
+        "Publikasi Teknik Informatika dan Jaringan, 3(1), 129-137. "
+        "https://doi.org/10.62951/repeater.v3i1.355",
+        "Naresvari, E., & Susetyo, Y. A. (2025). Penerapan JavaScript React pada "
+        "perancangan front-end website UMKM Jemari Ragil. IT-Explore: Jurnal "
+        "Penerapan Teknologi Informasi dan Komunikasi, 4(1), 16-32. "
+        "https://doi.org/10.24246/itexplore.v4i1.2025.pp16-32",
+        "Nugraha, N., Budiyono, I., Nurhayati, I., & Arumsari, V. (2023). "
+        "Pemanfaatan sistem informasi akuntansi pada UMKM di Kota Semarang. "
+        "KEUNIS, 11(1), 95-104. https://doi.org/10.32497/keunis.v11i1.4079",
+        "Ramadani, F., Budianto, F., Saputra, M. D., & Faizah, Y. L. N. (2025). "
+        "Penerapan sistem informasi akuntansi berbasis web pada UMKM (Studi "
+        "kasus: Diska Beauty Salon). DEVICE: Journal of Information System, "
+        "Computer Science and Information Technology, 6(2). "
+        "https://doi.org/10.46576/device.v6i2.7206",
+    ]
+    for ref in referensi:
         p = doc.add_paragraph()
-        set_single_spacing(p, space_after=1)
-        r = p.add_run(f"[{marker}] {topik}.")
+        set_single_spacing(p, space_after=2)
+        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        # indentasi gantung (hanging indent) gaya daftar pustaka
+        p.paragraph_format.left_indent = Cm(0.75)
+        p.paragraph_format.first_line_indent = Cm(-0.75)
+        r = p.add_run(ref)
         r.font.name = FONT_BODY
         r.font.size = Pt(9)
 
