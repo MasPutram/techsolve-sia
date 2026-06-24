@@ -581,9 +581,9 @@ END;
         "Pemetaan penanda sitasi (isi sitasi dalam teks via Mendeley sesuai peta "
         "ini): [SITASI-1] dan [SITASI-7] -> Firdaus & Widyasastrena (2017); "
         "[SITASI-2] -> Nugraha dkk. (2023); [SITASI-3] dan [SITASI-8] -> "
-        "Ramadani dkk. (2025); [SITASI-4] -> Anggraeni & Priatna (2019); "
-        "[SITASI-5] -> Dedianto (2013); [SITASI-6] -> Maharani (2025) dan "
-        "Naresvari & Susetyo (2025); [SITASI-9] -> Arief (2010)."
+        "Ramadani dkk. (2025); [SITASI-4] -> Prasetyo (2013); "
+        "[SITASI-5] dan [SITASI-9] -> Aidjili (2025); [SITASI-6] -> "
+        "Maharani (2025) dan Naresvari & Susetyo (2025)."
     )
     pm.italic = True
     pm.font.name = FONT_BODY
@@ -591,15 +591,10 @@ END;
 
     # Daftar referensi (terverifikasi; urut alfabetis)
     referensi = [
-        "Anggraeni, I., & Priatna, H. (2019). Pentingnya double entry system "
-        "dalam akuntansi perusahaan. AKURAT: Jurnal Ilmiah Akuntansi FE UNIBBA, "
-        "10(1), 90-98.",
-        "Arief, M. R. (2010). Implementasi constraint untuk menjamin konsistensi "
-        "dan integritas data dalam database. Jurnal DASI, 11(2). STMIK AMIKOM "
-        "Yogyakarta.",
-        "Dedianto. (2013). Sistem trigger database pada SIAKAD Informatika. "
-        "JUSTIN (Jurnal Sistem dan Teknologi Informasi), 1(1). Universitas "
-        "Tanjungpura.",
+        "Aidjili, M. (2025). Implementasi trigger dan view untuk mendukung "
+        "konsistensi dan efisiensi pengolahan data pada sistem database (Studi "
+        "kasus: Toko Nanda Pekalongan). Jurnal Komputer, Informasi dan "
+        "Teknologi, 5(2). https://doi.org/10.53697/jkomitek.v5i2.3940",
         "Firdaus, D. W., & Widyasastrena, D. (2017). Perancangan sistem "
         "informasi akuntansi koperasi dan UMKM berbasis technopreneur. Jurnal "
         "Riset Akuntansi dan Keuangan, 5(2), 1423-1440. "
@@ -615,6 +610,9 @@ END;
         "Nugraha, N., Budiyono, I., Nurhayati, I., & Arumsari, V. (2023). "
         "Pemanfaatan sistem informasi akuntansi pada UMKM di Kota Semarang. "
         "KEUNIS, 11(1), 95-104. https://doi.org/10.32497/keunis.v11i1.4079",
+        "Prasetyo, W. (2013). Membongkar akuntansi double entry systems. Jurnal "
+        "Akuntansi Multiparadigma, 4(2), 308-321. "
+        "https://doi.org/10.18202/jamal.2013.08.7199",
         "Ramadani, F., Budianto, F., Saputra, M. D., & Faizah, Y. L. N. (2025). "
         "Penerapan sistem informasi akuntansi berbasis web pada UMKM (Studi "
         "kasus: Diska Beauty Salon). DEVICE: Journal of Information System, "
