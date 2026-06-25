@@ -30,3 +30,8 @@ docs/artikel/_zoom*.png
 
 # folder submission (artefak untuk diunggah, bukan source)
 /submit/
+
+# file instruksi tugas & config editor (tidak dipublikasikan ke repo)
+/uas.md
+/artikel.md
+/.claude/
