@@ -33,10 +33,9 @@ Aplikasi mencatat transaksi dengan prinsip **double-entry**, lalu **otomatis** m
 
 ## 🚀 Cara Install & Menjalankan
 
-### 1. Clone & install dependency
+### 1. Ekstrak & install dependency
+Ekstrak `SIA-source-code.zip`, buka folder hasil ekstrak melalui terminal, lalu:
 ```bash
-git clone https://github.com/MasPutram/techsolve-sia.git
-cd techsolve-sia
 npm install
 ```
 
@@ -54,7 +53,7 @@ mysql -u root -p < database/seed.sql
 > `seed.sql` **tidak** mengisi tabel `journal_entries`. Tabel itu akan terisi **otomatis** oleh trigger saat detail transaksi di-*insert*. Inilah bukti trigger bekerja.
 
 ### 4. Konfigurasi koneksi database
-Buat file `.env.local` di root project (lihat `.env.local` yang sudah tersedia sebagai contoh):
+Salin `.env.example` menjadi `.env.local`, lalu sesuaikan dengan kredensial MySQL kamu:
 ```env
 DB_HOST=localhost
 DB_PORT=3306
