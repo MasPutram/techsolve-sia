@@ -18,3 +18,15 @@
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# file temp Microsoft Word
+~$*.docx
+~WRL*.tmp
+
+# file review sementara artikel
+docs/artikel/_review*.png
+docs/artikel/_review*.pdf
+docs/artikel/_zoom*.png
+
+# folder submission (artefak untuk diunggah, bukan source)
+/submit/
